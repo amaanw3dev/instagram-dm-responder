@@ -29,7 +29,9 @@ app.get("/webhook", (req, res) => {
 
 app.post("/webhook", (req, res)=>{
   let body = req.body;
-  console.log("received webhook : ", body);
+  if(body.object==='instagram'){
+    console.log(body.entry.messaging)
+  }
   res.status(200)
 })
 
