@@ -5,9 +5,11 @@ const app = express()
 dotenv.config();
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 const VERIFY_TOKEN = process.env.VERIFY_TOKEN;
+const response = process.env.RESPONSE;
+const port = process.env.PORT
 
 app.get("/", (req, res)=>{
-  res.status(200).json("Server connected")
+  res.send(response)
 })
 
 // Handles messages events
@@ -25,4 +27,4 @@ function callSendAPI(sender_psid, response) {
   
 }
 
-app.listen(4000, ()=>console.log("server started at port 4000"))
+app.listen(port, ()=>console.log("server started at port ", port))
