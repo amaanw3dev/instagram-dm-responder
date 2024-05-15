@@ -8,11 +8,10 @@ const VERIFY_TOKEN = process.env.VERIFY_TOKEN;
 const port = process.env.PORT;
 
 app.get("/verify-webhook", (req, res) => {
-  console.log("request : ", req);
+  
   let mode = req.query["hub.mode"];
   let token = req.query["hub.verify_token"];
   let challenge = req.query["hub.challenge"];
-  console.log("the three params : ", mode, token, challenge);
 
   if (mode && token) {
     // Check the mode and token sent is correct
@@ -26,6 +25,12 @@ app.get("/verify-webhook", (req, res) => {
     }
   }
 });
+
+app.post("/webhook", (req, res)=>{
+  let body = req.body;
+  console.log("received webhook : ", body);
+  res.status(200)
+})
 
 // Handles messages events
 function handleMessage(sender_psid, received_message) {}
