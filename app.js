@@ -2,14 +2,13 @@ const express = require("express");
 const dotenv = require("dotenv");
 
 const app = express();
-app.use(express.json())
+app.use(express.json());
 dotenv.config();
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 const VERIFY_TOKEN = process.env.VERIFY_TOKEN;
 const port = process.env.PORT;
 
 app.get("/webhook", (req, res) => {
-  
   let mode = req.query["hub.mode"];
   let token = req.query["hub.verify_token"];
   let challenge = req.query["hub.challenge"];
@@ -27,11 +26,18 @@ app.get("/webhook", (req, res) => {
   }
 });
 
-app.post("/webhook", (req, res)=>{
+app.post("/webhook", (req, res) => {
   let body = req.body;
-  console.log("received webhook : ", body);
-  res.status(200)
-})
+  if (body.object === "instagram") {
+    body.entry.forEach(function (entry) {
+      let webhook_event = entry.messaging[0];
+      console.log("Webhook event : ", webhook_event);
+    });
+    res.status(200).send("EVENT_RECEIVED");
+  } else {
+    res.status(404);
+  }
+});
 
 // Handles messages events
 function handleMessage(sender_psid, received_message) {}
