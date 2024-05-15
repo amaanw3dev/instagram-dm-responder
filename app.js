@@ -31,7 +31,7 @@ app.post("/webhook", (req, res) => {
   if (body.object === "instagram") {
     body.entry.forEach(function (entry) {
       let webhook_event = entry.messaging[0];
-      console.log("Webhook event : ", webhook_event);
+      console.log("message text : ", webhook_event.message.text);
     });
     res.status(200).send("EVENT_RECEIVED");
   } else {
